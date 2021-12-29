@@ -31,11 +31,11 @@ def trial(win, match, english):
         generator = meaningless_generator(seed,english=='english')
 
 
-    result = generator.generate(15)
-    for i in range(15):
+    result = generator.generate(12)
+    for i in range(12):
         text = visual.TextStim(win, text=result[i].word,
-                               height=0.08,
-                               pos=(0.0,0.8-i*0.1),
+                               height=0.12,
+                               pos=(0.0,0.8-i*0.15),
                                bold=True,
                                italic=False,
                                color=result[i].color
