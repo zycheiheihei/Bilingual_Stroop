@@ -1,10 +1,9 @@
 #载入所需要的库
 from psychopy import visual, core, event
 from trial import *
-import time
-import random
 import os
 import json
+import numpy as np
 
 
 subject = random_str(10)
@@ -75,10 +74,6 @@ warm_up_result.draw()
 win.flip()
 core.wait(1)
 
-seed = int(time.time())%6
-order = [int(i/2) for i in range(12)]
-random.shuffle(order)
-
 summary = {}
 for s in english:
     summary[s]={}
@@ -104,10 +99,10 @@ press_instr.draw()
 win.flip()
 event.waitKeys()
 
-for i in range(12):
-    setting = trial_settings[order[i]]
+for i in range(36):
+    setting = trial_settings[i]
     result_time = trial(win,setting[0], setting[1])
-    summary[setting[1]][setting[0]].append(round(result_time,6))
+    summary[setting[1]][setting[0]].append(result_time)
     # break
 
 
@@ -122,6 +117,24 @@ save_text = visual.TextStim(win, text = u'保存数据中...',
 save_text.draw()
 win.flip()
 core.wait(0)
+
+for s in english:
+    for t in match:
+        data = np.array(summary[s][t])
+        arithmeticMean = data.mean()
+        standardDeviation = data.std()
+        residualError = abs(data - arithmeticMean)
+        sum = 0
+        cnt = 0
+        for i in range(data.shape[0]):
+            if residualError[i]<3*standardDeviation:
+                sum+=data[i]
+                cnt+=1
+            else:
+                print("extreme case erased")
+        summary[s][t] = round(sum/cnt,6)
+
+
 
 if not os.path.exists('result'):
     os.mkdir('result')

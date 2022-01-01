@@ -28,7 +28,16 @@ class match_generator(generator):
         super(match_generator,self).__init__(seed, english)
 
     def generate(self, length):
-        samples = [random.choice(list(abstract_word.lookup.keys())) for i in range(length)]
+        samples = list(abstract_word.lookup.keys())*2
+        while True:
+            random.shuffle(samples)
+            ok=True
+            for i in range(1,len(samples)):
+                if samples[i]==samples[i-1]:
+                    ok=False
+                    break
+            if ok:
+                break
         result = [abstract_word(w,abstract_word.lookup[w], self.english) for w in samples]
         return result
 
@@ -37,8 +46,30 @@ class opposite_generator(generator):
         super(opposite_generator, self).__init__(seed,english)
 
     def generate(self, length):
-        samples = [random.choice(list(abstract_word.lookup.keys())) for i in range(length)]
-        result = [abstract_word(w, random.sample(set(list(abstract_word.lookup.values())).difference({abstract_word.lookup[w]}), 1)[0], self.english) for w in samples]
+        samples = list(abstract_word.lookup.keys())*2
+        while True:
+            random.shuffle(samples)
+            ok=True
+            for i in range(1,len(samples)):
+                if samples[i]==samples[i-1]:
+                    ok=False
+                    break
+            if ok:
+                break
+        colors = list(abstract_word.lookup.values())*2
+        while True:
+            random.shuffle(colors)
+            ok = True
+            for i in range(len(samples)):
+                if abstract_word.lookup[samples[i]]==colors[i]:
+                    ok=False
+                    break
+                if i>0 and colors[i]==colors[i-1]:
+                    ok=False
+                    break
+            if ok:
+                break
+        result = [abstract_word(samples[i],colors[i], self.english) for i in range(len(samples))]
         return result
 
 class meaningless_generator(generator):
@@ -46,9 +77,28 @@ class meaningless_generator(generator):
         super(meaningless_generator, self).__init__(seed, english)
 
     def generate(self, length):
-        samples = [random.choice(list(abstract_word.meaningless.keys())) for i in range(length)]
-        colors = [random.choice(list(abstract_word.lookup.values())) for i in range(length)]
-        result = [abstract_word(samples[i],colors[i], self.english) for i in range(length)]
+        samples = list(abstract_word.meaningless.keys())*2
+        random.shuffle(samples)
+        while True:
+            random.shuffle(samples)
+            ok=True
+            for i in range(1,len(samples)):
+                if samples[i]==samples[i-1]:
+                    ok=False
+                    break
+            if ok:
+                break
+        colors = list(abstract_word.lookup.values())*2
+        while True:
+            random.shuffle(colors)
+            ok = True
+            for i in range(1, len(colors)):
+                if colors[i] == colors[i - 1]:
+                    ok = False
+                    break
+            if ok:
+                break
+        result = [abstract_word(samples[i],colors[i], self.english) for i in range(len(samples))]
         return result
 
 class X_generator(generator):

@@ -1,11 +1,14 @@
 from config import *
 from psychopy import visual, core, event
 import time
+import random
 
 match = ['match','opposite','meaningless']
 english = ['chinese','english']
 
-trial_settings = [(i,j) for i in match for j in english]
+trial_settings = [(i,j) for i in match for j in english]*3
+random.shuffle(trial_settings)
+trial_settings = trial_settings+list(reversed(trial_settings))
 
 def trial(win, match, english):
     # 这里未做讲解，是我闲来无聊做了一个数字的倒计时。
@@ -29,8 +32,6 @@ def trial(win, match, english):
         generator = match_generator(seed,english=='english')
     else:
         generator = meaningless_generator(seed,english=='english')
-
-
     result = generator.generate(12)
     for i in range(12):
         text = visual.TextStim(win, text=result[i].word,
