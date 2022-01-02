@@ -33,15 +33,28 @@ def trial(win, match, english):
     else:
         generator = meaningless_generator(seed,english=='english')
     result = generator.generate(12)
-    for i in range(12):
-        text = visual.TextStim(win, text=result[i].word,
-                               height=0.12,
-                               pos=(0.0,0.8-i*0.15),
-                               bold=True,
-                               italic=False,
-                               color=result[i].color
-                               )
-        text.draw()
+
+    if english=='english':
+        for i in range(12):
+            text = visual.TextStim(win, text=result[i].word,
+                                   height=0.12,
+                                   pos=(0.0,0.8-i*0.15),
+                                   bold=True,
+                                   italic=False,
+                                   color=result[i].color
+                                   )
+            text.draw()
+    else:
+        for i in range(12):
+            text = visual.TextStim(win, text=result[i].word,
+                                   height=0.12,
+                                   pos=(0.0,0.8-i*0.15),
+                                   bold=True,
+                                   italic=False,
+                                   color=result[i].color,
+                                   font='simhei'
+                                   )
+            text.draw()
 
     # 时钟
     timer = core.Clock()

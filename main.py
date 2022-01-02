@@ -32,7 +32,6 @@ instruction.draw()
 press_instr.draw()
 win.flip()
 event.waitKeys()
-
 # 熟悉
 warm_up = visual.TextStim(win, text = u'热身',
                                height = 0.12,
@@ -73,6 +72,7 @@ warm_up_result = visual.TextStim(win, text = u'用时（s）：'+str(round(warm_
 warm_up_result.draw()
 win.flip()
 core.wait(1)
+
 
 summary = {}
 for s in english:
