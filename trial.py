@@ -6,7 +6,7 @@ import random
 match = ['match','opposite','meaningless']
 english = ['chinese','english']
 
-trial_settings = [(i,j) for i in match for j in english]*3
+trial_settings = [(i,j) for i in match for j in english]*2
 random.shuffle(trial_settings)
 trial_settings = trial_settings+list(reversed(trial_settings))
 

@@ -7,9 +7,11 @@ import numpy as np
 
 
 subject = random_str(10)
+print(subject)
 
 #创建窗口
-win = visual.Window(fullscr = True,
+win = visual.Window(fullscr = False,
+                    size=(1440,810),
                     color = (-1.0,-1.0,-1.0))
 
 # 实验指导
@@ -99,7 +101,7 @@ press_instr.draw()
 win.flip()
 event.waitKeys()
 
-for i in range(36):
+for i in range(24):
     setting = trial_settings[i]
     result_time = trial(win,setting[0], setting[1])
     summary[setting[1]][setting[0]].append(result_time)
@@ -117,6 +119,12 @@ save_text = visual.TextStim(win, text = u'保存数据中...',
 save_text.draw()
 win.flip()
 core.wait(0)
+
+if not os.path.exists('result'):
+    os.mkdir('result')
+
+with open('result/{}_raw.json'.format(subject),'w') as f:
+    json.dump(summary,f)
 
 for s in english:
     for t in match:
@@ -139,7 +147,7 @@ for s in english:
 if not os.path.exists('result'):
     os.mkdir('result')
 
-with open('result/{}.json'.format(subject),'w') as f:
+with open('result/{}_avg.json'.format(subject),'w') as f:
     json.dump(summary,f)
 
 # 保存结果
